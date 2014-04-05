@@ -1,4 +1,4 @@
-package com.judas.jan.json;
+package cz.judas.jan.json;
 
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.deser.CreatorProperty;
@@ -12,7 +12,7 @@ import java.beans.ConstructorProperties;
 import java.util.*;
 
 public class ConstructorPropertiesValueInstantiators extends ValueInstantiators.Base {
-    private final Map<Class<?>, ConstructorPropertiesValueInstantiator> cache = new HashMap<>();
+    private final Map<Class<?>, ConstructorPropertiesValueInstantiator> cache = new HashMap<Class<?>, ConstructorPropertiesValueInstantiator>();
 
     @Override
     public ValueInstantiator findValueInstantiator(DeserializationConfig config, BeanDescription beanDesc, ValueInstantiator defaultInstantiator) {
@@ -42,7 +42,7 @@ public class ConstructorPropertiesValueInstantiators extends ValueInstantiators.
     }
 
     private Set<AnnotatedConstructor> findAnnotatedConstructors(List<AnnotatedConstructor> constructors) {
-        Set<AnnotatedConstructor> annotatedConstructors = new HashSet<>();
+        Set<AnnotatedConstructor> annotatedConstructors = new HashSet<AnnotatedConstructor>();
         for (AnnotatedConstructor constructor : constructors) {
             if(constructor.hasAnnotation(ConstructorProperties.class)) {
                 annotatedConstructors.add(constructor);

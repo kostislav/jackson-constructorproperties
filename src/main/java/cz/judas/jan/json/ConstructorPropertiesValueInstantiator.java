@@ -1,4 +1,4 @@
-package com.judas.jan.json;
+package cz.judas.jan.json;
 
 import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -40,8 +40,12 @@ public class ConstructorPropertiesValueInstantiator extends ValueInstantiator {
         try {
             constructor.setAccessible(true);
             return constructor.newInstance(args);
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+        } catch (InstantiationException e) {
             throw new JsonMappingException("Could not instantiate object", e);
+        } catch (IllegalAccessException e) {
+            throw new JsonMappingException("Could not access constructor", e);
+        } catch (InvocationTargetException e) {
+            throw new JsonMappingException("Constructor invocation threw an exception", e);
         }
     }
 }
