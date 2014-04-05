@@ -14,8 +14,8 @@ public class ConstructorPropertiesValueInstantiator extends ValueInstantiator {
     private final Constructor<?> constructor;
     private final SettableBeanProperty[] settableBeanProperties;
 
-    public ConstructorPropertiesValueInstantiator(Class<?> clazz, Constructor<?> constructor, SettableBeanProperty[] settableBeanProperties) {
-        this.clazz = clazz;
+    public ConstructorPropertiesValueInstantiator(Constructor<?> constructor, SettableBeanProperty[] settableBeanProperties) {
+        this.clazz = constructor.getDeclaringClass();
         this.constructor = constructor;
         this.settableBeanProperties = settableBeanProperties.clone();
     }
