@@ -1,36 +1,29 @@
 package cz.judas.jan.json;
 
-import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.cfg.DeserializerFactoryConfig;
-import com.fasterxml.jackson.databind.deser.BeanDeserializerFactory;
-import com.fasterxml.jackson.databind.deser.DefaultDeserializationContext;
-import com.fasterxml.jackson.databind.ser.DefaultSerializerProvider;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.deser.std.StdScalarDeserializer;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.beans.ConstructorProperties;
+import java.io.IOException;
 import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
-public class ConstructorPropertiesValueInstantiatorsTest {
+public class ConstructorPropertiesAnnotationIntrospectorTest {
     private ObjectMapper objectMapper;
 
     @Before
     public void setUp() throws Exception {
-        objectMapper = new ObjectMapper(
-                new JsonFactory(),
-                new DefaultSerializerProvider.Impl(),
-                new DefaultDeserializationContext.Impl(
-                        new BeanDeserializerFactory(
-                                new DeserializerFactoryConfig().withValueInstantiators(new ConstructorPropertiesValueInstantiators())
-                        )
-                )
-        );
+        objectMapper = new ObjectMapper()
+                .setAnnotationIntrospector(new ConstructorPropertiesAnnotationIntrospector());
     }
 
     @Test
@@ -85,11 +78,20 @@ public class ConstructorPropertiesValueInstantiatorsTest {
         assertThat(valueObject, is(equalTo(new ObjectWithNestedProperty("kk", new ObjectWithListProperty("ww", list(5.0, 54.0))))));
     }
 
-    @Test(expected = JsonMappingException.class)
+    @Test(expected = JsonMappingException.class) // TODO why?
     public void failsOnObjectsWithMultipleAnnotatedConstructors() throws Exception {
         String json = jsonFrom(map("prop1", "po"));
 
         objectMapper.readValue(json, ObjectWithMultipleConstructors.class);
+    }
+
+    @Test
+    public void usesCustomDeserializers() throws Exception {
+        String json = jsonFrom(map("customField", "value"));
+
+        ObjectWithCustomField value = objectMapper.readValue(json, ObjectWithCustomField.class);
+
+        assertThat(value.customField, is("custom value"));
     }
 
     private static <T> List<T> list(T... items) {
@@ -250,4 +252,27 @@ public class ConstructorPropertiesValueInstantiatorsTest {
                     '}';
         }
     }
+
+    @SuppressWarnings("UnusedDeclaration")
+    private static class ObjectWithCustomField {
+        @JsonDeserialize(using = CustomDeserializer.class)
+        private final String customField;
+
+        @ConstructorProperties("customField")
+        private ObjectWithCustomField(String customField) {
+            this.customField = customField;
+        }
+
+        private static class CustomDeserializer extends StdScalarDeserializer<String> {
+            private CustomDeserializer() {
+                super(String.class);
+            }
+
+            @Override
+            public String deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
+                return "custom " + jsonParser.getValueAsString();
+            }
+        }
+    }
+
 }
