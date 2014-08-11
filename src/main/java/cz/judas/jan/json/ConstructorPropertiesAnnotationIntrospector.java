@@ -1,18 +1,20 @@
 package cz.judas.jan.json;
 
+import com.fasterxml.jackson.databind.PropertyName;
 import com.fasterxml.jackson.databind.introspect.*;
 
 import java.beans.ConstructorProperties;
 
 public class ConstructorPropertiesAnnotationIntrospector extends JacksonAnnotationIntrospector {
     @Override
-    public String findDeserializationName(AnnotatedParameter param) {
-        String name = super.findDeserializationName(param);
-        if(name == null) {
+    public PropertyName findNameForDeserialization(Annotated a) {
+        PropertyName name = super.findNameForDeserialization(a);
+        if(name == null && a instanceof AnnotatedParameter) {
+            AnnotatedParameter param = (AnnotatedParameter) a;
             AnnotatedWithParams owner = param.getOwner();
             if(isOwnerAnAnnotatedConstructor(owner)) {
                 ConstructorProperties constructorProperties = owner.getAnnotation(ConstructorProperties.class);
-                name = constructorProperties.value()[param.getIndex()];
+                name = new PropertyName(constructorProperties.value()[param.getIndex()]);
             }
         }
         return name;

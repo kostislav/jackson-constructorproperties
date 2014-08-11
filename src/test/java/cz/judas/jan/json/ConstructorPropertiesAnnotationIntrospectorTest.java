@@ -42,7 +42,7 @@ public class ConstructorPropertiesAnnotationIntrospectorTest {
     public void deserializesObjectContainingList() throws Exception {
         String json = jsonFrom(map(
                 "prop1", "ee",
-                "prop2", list(1, 2.5)
+                "prop2", list(1.0, 2.5)
         ));
 
         ObjectWithListProperty valueObject = objectMapper.readValue(json, ObjectWithListProperty.class);
