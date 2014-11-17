@@ -1,4 +1,4 @@
-package cz.judas.jan.json;
+package cz.judas.jan.jackson.constructorproperties;
 
 import com.fasterxml.jackson.databind.PropertyName;
 import com.fasterxml.jackson.databind.introspect.*;

@@ -1,13 +1,14 @@
-package cz.judas.jan.json.testclasses;
+package cz.judas.jan.jackson.constructorproperties.testclasses;
 
 import java.beans.ConstructorProperties;
+import java.util.List;
 
-public class ObjectWithNestedProperty {
+public class ObjectWithListProperty {
     private final String prop1;
-    private final ObjectWithListProperty prop2;
+    private final List<Double> prop2;
 
     @ConstructorProperties({"prop1", "prop2"})
-    public ObjectWithNestedProperty(String prop1, ObjectWithListProperty prop2) {
+    public ObjectWithListProperty(String prop1, List<Double> prop2) {
         this.prop1 = prop1;
         this.prop2 = prop2;
     }
@@ -21,7 +22,7 @@ public class ObjectWithNestedProperty {
             return false;
         }
 
-        ObjectWithNestedProperty that = (ObjectWithNestedProperty) o;
+        ObjectWithListProperty that = (ObjectWithListProperty) o;
 
         return prop1.equals(that.prop1) && prop2.equals(that.prop2);
     }

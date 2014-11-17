@@ -1,8 +1,8 @@
-package cz.judas.jan.json;
+package cz.judas.jan.jackson.constructorproperties;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import cz.judas.jan.json.testclasses.*;
+import cz.judas.jan.jackson.constructorproperties.testclasses.*;
 import org.junit.Before;
 import org.junit.Test;
 

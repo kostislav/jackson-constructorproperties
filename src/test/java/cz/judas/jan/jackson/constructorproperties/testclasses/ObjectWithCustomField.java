@@ -1,4 +1,4 @@
-package cz.judas.jan.json.testclasses;
+package cz.judas.jan.jackson.constructorproperties.testclasses;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;

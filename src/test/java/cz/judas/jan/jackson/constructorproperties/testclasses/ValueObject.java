@@ -1,4 +1,4 @@
-package cz.judas.jan.json.testclasses;
+package cz.judas.jan.jackson.constructorproperties.testclasses;
 
 import java.beans.ConstructorProperties;
 

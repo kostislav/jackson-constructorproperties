@@ -1,14 +1,14 @@
-package cz.judas.jan.json.testclasses;
+package cz.judas.jan.jackson.constructorproperties.testclasses;
 
 import java.beans.ConstructorProperties;
-import java.util.List;
+import java.util.Map;
 
-public class ObjectWithListProperty {
+public class ObjectWithMapProperty {
     private final String prop1;
-    private final List<Double> prop2;
+    private final Map<Integer, String> prop2;
 
     @ConstructorProperties({"prop1", "prop2"})
-    public ObjectWithListProperty(String prop1, List<Double> prop2) {
+    public ObjectWithMapProperty(String prop1, Map<Integer, String> prop2) {
         this.prop1 = prop1;
         this.prop2 = prop2;
     }
@@ -22,7 +22,7 @@ public class ObjectWithListProperty {
             return false;
         }
 
-        ObjectWithListProperty that = (ObjectWithListProperty) o;
+        ObjectWithMapProperty that = (ObjectWithMapProperty) o;
 
         return prop1.equals(that.prop1) && prop2.equals(that.prop2);
     }
