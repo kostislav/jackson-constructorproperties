@@ -10,11 +10,11 @@ public class ConstructorPropertiesAnnotationIntrospector extends JacksonAnnotati
     public PropertyName findNameForDeserialization(Annotated a) {
         PropertyName name = super.findNameForDeserialization(a);
         if(name == null && a instanceof AnnotatedParameter) {
-            AnnotatedParameter param = (AnnotatedParameter) a;
-            AnnotatedWithParams owner = param.getOwner();
+            AnnotatedParameter annotatedParameter = (AnnotatedParameter) a;
+            AnnotatedWithParams owner = annotatedParameter.getOwner();
             if(isOwnerAnAnnotatedConstructor(owner)) {
                 ConstructorProperties constructorProperties = owner.getAnnotation(ConstructorProperties.class);
-                name = new PropertyName(constructorProperties.value()[param.getIndex()]);
+                name = new PropertyName(constructorProperties.value()[annotatedParameter.getIndex()]);
             }
         }
         return name;
