@@ -1,7 +1,9 @@
 Jackson @ConstructorProperties
 ==============================
 
-This repository contains support for the [@java.beans.ConstructorProperties][1] annotation for [Jackson][2] version 2 and up.
+**IMPORTANT**: Since jackson-databind 2.9, this feature works out of the box and this add-on is no longer needed (see com.fasterxml.jackson.databind.MapperFeature.INFER_CREATOR_FROM_CONSTRUCTOR_PROPERTIES).
+
+This repository contains support for the [@java.beans.ConstructorProperties][1] annotation for [Jackson][2] version 2 and up to 2.8.
 
 This feature is useful when you want Jackson te deserialize immutable objects. Names of constructor arguments are not retained in Java class files and therefore must be supplied using external methods, most often annotations.
 In Jackson, each argument of the constructor must be annotated using a @JsonProperty proprietary annotation. This is quite verbose and moreover needlessly couples the value class to Jackson.
